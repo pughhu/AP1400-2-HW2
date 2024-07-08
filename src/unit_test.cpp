@@ -3,8 +3,12 @@
 #include "gmock/gmock.h"
 #include "server.h"
 #include "client.h"
+#include "crypto.h"
 
-/*
+extern std::vector<std::string> pending_trxs;
+
+void show_pending_transactions();
+
 TEST(HW1Test, TEST1) {
     Server server{};
     auto bryan{server.add_client("bryan")};
@@ -77,7 +81,8 @@ TEST(HW1Test, TEST9) {
 TEST(HW1Test, TEST10) {
     std::string sender{}, receiver{};
     double value;
-    Server::parse_trx("sarah-clay-0.5", sender, receiver, value);
+    std::string trx_{"sarah-clay-0.5"};
+    Server::parse_trx(trx_, sender, receiver, value);
     EXPECT_EQ(sender, "sarah");
     EXPECT_EQ(receiver, "clay");
     EXPECT_DOUBLE_EQ(value, 0.5);
@@ -86,7 +91,8 @@ TEST(HW1Test, TEST10) {
 TEST(HW1Test, TEST11) {
     std::string sender{}, receiver{};
     double value;
-    EXPECT_THROW(Server::parse_trx("sarah-clay_0.5", sender, receiver, value), std::runtime_error);
+    std::string trx_{"sarah-clay_0.5"};
+    EXPECT_THROW(Server::parse_trx(trx_, sender, receiver, value), std::runtime_error);
 }
 
 TEST(HW1Test, TEST12) {
@@ -136,6 +142,8 @@ TEST(HW1Test, TEST15) {
         mempool += trx;
         
     show_wallets(server);
+
+    show_pending_transactions();   
     size_t nonce{server.mine()};
     show_wallets(server);
 
@@ -146,7 +154,7 @@ TEST(HW1Test, TEST15) {
     EXPECT_TRUE(clint->get_wallet()==3.5 ||clint->get_wallet()==3.5 ||clint->get_wallet()==9.75);
     EXPECT_TRUE(sarah->get_wallet()==13.25 || sarah->get_wallet()==7 || sarah->get_wallet()==7);
 }
-*/
+
 
 
 
